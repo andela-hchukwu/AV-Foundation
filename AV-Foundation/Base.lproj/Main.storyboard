@@ -81,7 +81,7 @@
         <!--Camera View Controller-->
         <scene sceneID="sZ0-zt-fqv">
             <objects>
-                <viewController storyboardIdentifier="VideoVC" modalPresentationStyle="fullScreen" id="13M-qF-x4D" customClass="CameraViewController" customModule="AV_Foundation" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="VideoVC" id="13M-qF-x4D" customClass="CameraViewController" customModule="AV_Foundation" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="g6D-R0-ZUD">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -100,18 +100,26 @@
                             <imageView hidden="YES" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="XuZ-0K-NPZ">
                                 <rect key="frame" x="0.0" y="114" width="414" height="748"/>
                             </imageView>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6p5-Ip-qCI">
-                                <rect key="frame" x="184" y="783" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6p5-Ip-qCI">
+                                <rect key="frame" x="157" y="752" width="100" height="60"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="60" id="esP-nK-yhh"/>
+                                    <constraint firstAttribute="width" constant="100" id="gaX-sa-fb5"/>
+                                </constraints>
+                                <state key="normal" title="Record Video"/>
+                                <connections>
+                                    <action selector="recordButtonPressed:" destination="13M-qF-x4D" eventType="touchUpInside" id="0js-8h-jJZ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
+                            <constraint firstItem="6p5-Ip-qCI" firstAttribute="centerX" secondItem="g6D-R0-ZUD" secondAttribute="centerX" id="1MG-iL-7Ir"/>
                             <constraint firstItem="2pw-Nz-OJj" firstAttribute="leading" secondItem="d9a-kp-bPW" secondAttribute="leading" constant="15" id="6VU-BZ-bLf"/>
                             <constraint firstItem="XuZ-0K-NPZ" firstAttribute="leading" secondItem="d9a-kp-bPW" secondAttribute="leading" id="UMD-mq-UvE"/>
                             <constraint firstItem="XuZ-0K-NPZ" firstAttribute="top" secondItem="2pw-Nz-OJj" secondAttribute="bottom" constant="15" id="VFI-T5-YbG"/>
                             <constraint firstItem="d9a-kp-bPW" firstAttribute="bottom" secondItem="XuZ-0K-NPZ" secondAttribute="bottom" id="bBP-RC-xTp"/>
+                            <constraint firstItem="d9a-kp-bPW" firstAttribute="bottom" secondItem="6p5-Ip-qCI" secondAttribute="bottom" constant="50" id="rwQ-eC-1sk"/>
                             <constraint firstItem="d9a-kp-bPW" firstAttribute="trailing" secondItem="XuZ-0K-NPZ" secondAttribute="trailing" id="uRS-G7-a2d"/>
                             <constraint firstItem="2pw-Nz-OJj" firstAttribute="top" secondItem="d9a-kp-bPW" secondAttribute="top" constant="5" id="xi3-Pk-c4q"/>
                         </constraints>
@@ -120,6 +128,7 @@
                     <connections>
                         <outlet property="backButton" destination="2pw-Nz-OJj" id="IBX-RN-rmY"/>
                         <outlet property="imageView" destination="XuZ-0K-NPZ" id="InG-us-Muz"/>
+                        <outlet property="recordButton" destination="6p5-Ip-qCI" id="v4W-c4-ZaZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FNa-OI-tAe" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
@@ -139,6 +148,9 @@
                                 <constraints>
                                     <constraint firstAttribute="width" constant="50" id="jsf-PN-Fva"/>
                                 </constraints>
+                                <connections>
+                                    <action selector="backButtonTapped:" destination="HJB-rZ-JY5" eventType="touchUpInside" id="jou-Xl-r7q"/>
+                                </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UcB-tS-oBZ">
                                 <rect key="frame" x="344" y="60" width="50" height="50"/>
@@ -147,6 +159,9 @@
                                     <constraint firstAttribute="width" constant="50" id="MZJ-H0-LAQ"/>
                                 </constraints>
                                 <state key="normal" title="Save"/>
+                                <connections>
+                                    <action selector="saveButtonTapped:" destination="HJB-rZ-JY5" eventType="touchUpInside" id="rii-o1-2Vi"/>
+                                </connections>
                             </button>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wBD-J3-COu">
                                 <rect key="frame" x="0.0" y="115" width="414" height="747"/>
@@ -165,6 +180,9 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="eUv-e1-V6f"/>
                     </view>
+                    <connections>
+                        <outlet property="videoImageView" destination="wBD-J3-COu" id="GW5-ey-YWj"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="bM1-C1-K17" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>

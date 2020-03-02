@@ -34,10 +34,7 @@ class ViewController: UIViewController {
     @IBAction func recordVideo(_ sender: Any) {
         recordVideo = true
         if let videoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "VideoVC") as? CameraViewController {
-            
-            
-            self.present(videoVC, animated: true)
-            
+            navigationController?.pushViewController(videoVC, animated: true)            
         }
     }
 
