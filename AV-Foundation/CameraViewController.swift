@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CameraViewController.swift
 //  AV-Foundation
 //
 //  Created by Henry Chukwu on 3/2/20.
@@ -8,39 +8,38 @@
 
 import UIKit
 import AVFoundation
-import AVKit
 
-class ViewController: UIViewController {
+class CameraViewController: UIViewController {
+
+    @IBOutlet weak var backButton: UIButton!
+    @IBOutlet weak var imageView: UIImageView!
     
-    @IBOutlet weak var tableView: UITableView!
-
+    var takenVideo: UIImage?
+    
     let captureSession = AVCaptureSession()
 
     var previewLayer: CALayer!
     var captureDevice: AVCaptureDevice!
     
     var recordVideo = false
-    
-    var recordedVideos = [String]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.tableFooterView = UIView()
-//        prepareCamera()
-    }
-    
-    @IBAction func recordVideo(_ sender: Any) {
-        recordVideo = true
-        if let videoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "VideoVC") as? CameraViewController {
-            
-            
-            self.present(videoVC, animated: true)
-            
+
+        if let availableVideo = takenVideo {
+            imageView.image = availableVideo
         }
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        prepareCamera()
+    }
 
+    @IBAction func backButtonTapped(_ sender: Any) {
+        dismiss(animated: true)
+    }
+    
     func prepareCamera() {
         captureSession.sessionPreset = AVCaptureSession.Preset.photo
         
@@ -103,51 +102,17 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
+extension CameraViewController: AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection) {
         if recordVideo {
             recordVideo = false
             // getImageFromSampleBuffer
-            if let image = self.getImageFromSampleBuffer(buffer: sampleBuffer) {
+//            if let image = self.getImageFromSampleBuffer(buffer: sampleBuffer) {
                 DispatchQueue.main.async {
-                    if let videoVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(identifier: "VideoVC") as? CameraViewController {
-                        
-                        videoVC.takenVideo = image
-                        
-                        DispatchQueue.main.async {
-                            self.present(videoVC, animated: true, completion: {
-                                self.stopCaptureSession()
-                            })
-                        }
-                        
-                    }
+                    self.dismiss(animated: true)
                 }
-            }
-        }
-    }
-    
-}
-
-extension ViewController: UITableViewDelegate, UITableViewDataSource {
-
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return recordedVideos.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "videoCell") as? VideoCell else { return UITableViewCell() }
-        
-        let video = recordedVideos[indexPath.row]
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let video = recordedVideos[indexPath.row]
-        
-        let videoPlayer = AVPlayerViewController()
-        
-        present(videoPlayer, animated: true) {
+//            }
         }
     }
 }
